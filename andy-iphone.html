@@ -28,7 +28,10 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .phone-stage { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .phone-stage {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    transform-origin: center center;
+  }
   .phone {
     width: 390px; height: 844px;
     background: #000;
@@ -88,12 +91,19 @@
   }
   #view-login.active { display: flex; flex-direction: column; justify-content: space-between; }
   .login-brand { text-align: center; }
-  .login-brand img.logo {
-    height: 32px;
-    width: auto;
-    margin: 0 auto 10px;
-    display: block;
-    filter: invert(1) brightness(1.1);
+  .login-brand .wordmark {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 36px;
+    letter-spacing: 10px;
+    color: #fff;
+    margin-bottom: 10px;
+    padding-left: 10px; /* visual balance of letter-spacing */
+  }
+  .login-brand .wordmark em {
+    font-style: italic;
+    color: var(--sienna);
+    font-weight: 400;
   }
   .login-brand .sub {
     font-size: 10px;
@@ -450,6 +460,50 @@
   #view-chat { padding-top: 48px; padding-bottom: 0; background: var(--bg); flex-direction: column; height: 100%; }
   #view-chat.active { display: flex; }
 
+  /* Capability banner above chat head */
+  .capability-banner {
+    background: linear-gradient(90deg, #23282D 0%, #2E353C 100%);
+    color: #fff;
+    padding: 7px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .capability-banner .cap-label {
+    opacity: 0.5;
+    font-size: 9px;
+  }
+  .capability-banner .cap-value {
+    color: var(--sienna);
+    letter-spacing: 1.5px;
+    position: relative;
+    min-width: 180px;
+    text-align: left;
+    animation: capReveal 0.5s ease;
+  }
+  .capability-banner .cap-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--sienna);
+    animation: capPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes capReveal {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes capPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(212,142,72,0.6); }
+    50%      { opacity: 0.6; box-shadow: 0 0 0 4px rgba(212,142,72,0); }
+  }
+
   .chat-head {
     padding: 10px 16px;
     background: #fff;
@@ -458,6 +512,11 @@
     align-items: center;
     gap: 10px;
     flex-shrink: 0;
+  }
+  .chat-head-avatar img.logo {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
   }
   .chat-back {
     background: none; border: none;
@@ -710,6 +769,181 @@
     border-top: 1px solid var(--border);
   }
 
+  /* Tap-to-reply button */
+  .reply-hint {
+    display: flex;
+    justify-content: center;
+    padding: 10px 14px 14px;
+    animation: msgIn 0.4s ease;
+  }
+  .reply-hint button {
+    background: var(--sienna);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 14px rgba(212,142,72,0.3);
+    transition: all 0.2s;
+    animation: replyHintPulse 2.2s ease-in-out infinite;
+  }
+  @keyframes replyHintPulse {
+    0%, 100% { box-shadow: 0 4px 14px rgba(212,142,72,0.3); }
+    50% { box-shadow: 0 4px 20px rgba(212,142,72,0.5); }
+  }
+  .reply-hint button:hover {
+    background: var(--sienna-deep);
+    transform: translateY(-1px);
+  }
+  .reply-hint .reply-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #fff;
+  }
+
+  /* Reservation success screen (replaces iframe payment) */
+  #view-success {
+    background: var(--bg);
+    padding-top: 48px;
+    text-align: center;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 40px;
+  }
+  #view-success.active { display: flex; }
+  .success-wrap { padding: 20px 32px; max-width: 340px; }
+  .success-check {
+    width: 80px; height: 80px;
+    margin: 0 auto 24px;
+    border-radius: 50%;
+    background: var(--olive);
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    animation: checkPop 0.5s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+  }
+  @keyframes checkPop {
+    0% { transform: scale(0); }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  .success-head {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 26px;
+    color: var(--ink-strong);
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+    line-height: 1.2;
+  }
+  .success-head em { font-style: italic; color: var(--sienna-deep); font-weight: 400; }
+  .success-sub {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+  .success-detail {
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  .success-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .success-detail-row:not(:last-child) { border-bottom: 1px dashed var(--border); }
+  .success-detail-row .v { color: var(--ink-strong); font-weight: 500; }
+  .success-next {
+    width: 100%;
+    text-align: left;
+    background: var(--sienna-soft);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+  }
+  .success-next-head {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--sienna-deep);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .success-next ul { list-style: none; padding: 0; margin: 0; }
+  .success-next li {
+    font-size: 11px;
+    color: var(--ink-strong);
+    padding: 4px 0 4px 16px;
+    position: relative;
+    line-height: 1.4;
+  }
+  .success-next li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--sienna-deep);
+    font-weight: 600;
+  }
+  .success-done-btn {
+    display: inline-block;
+    padding: 12px 32px;
+    background: var(--ink-strong);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .success-done-btn:hover {
+    background: var(--sienna-deep);
+    transform: translateY(-1px);
+  }
+  .processing-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(250,248,245,0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 20;
+  }
+  .processing-overlay.show { display: flex; }
+  .processing-overlay .spinner {
+    border-top-color: var(--sienna);
+  }
+  .processing-overlay-txt {
+    font-size: 12px;
+    color: var(--ink);
+    letter-spacing: 0.5px;
+  }
+
   .composer {
     padding: 8px 12px 20px;
     background: #fff;
@@ -748,42 +982,7 @@
     cursor: pointer;
   }
 
-  /* ================ PAYMENT IFRAME ================ */
-  #view-payment { background: #fff; padding-top: 48px; }
-  #view-payment.active { display: block; }
-  .payment-head {
-    position: absolute;
-    top: 48px; left: 0; right: 0;
-    padding: 10px 16px;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 20;
-    height: 44px;
-  }
-  .payment-back {
-    background: none; border: none;
-    font-size: 22px;
-    color: var(--sienna-deep);
-    cursor: pointer;
-    padding: 2px 6px 2px 0;
-  }
-  .payment-head-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink-strong);
-  }
-  #payFrame {
-    position: absolute;
-    top: 92px;
-    left: 0; right: 0; bottom: 0;
-    width: 100%;
-    border: none;
-    background: var(--bg);
-  }
+  /* (payment iframe removed — reservation now uses #view-success native screen) */
 </style>
 </head>
 <body>
@@ -800,7 +999,7 @@
           <span class="status-right">●●●● 5G ▮</span>
         </div>
         <div class="login-brand">
-          <img class="logo" src="assets/arada-logo.svg" alt="Arada" />
+          <div class="wordmark">AR<em>A</em>DA</div>
           <div class="sub">My Arada</div>
         </div>
         <div class="login-middle">
@@ -956,6 +1155,11 @@
             <div class="chat-head-status">● Online · powered by Agentforce</div>
           </div>
         </div>
+        <div class="capability-banner">
+          <span class="cap-dot"></span>
+          <span class="cap-label">Powered by</span>
+          <span class="cap-value" id="capValue">Trusted Enterprise Context</span>
+        </div>
         <div class="chat-stream" id="chatStream"></div>
         <div class="composer">
           <input id="composerInput" class="composer-input" placeholder="Message" disabled />
@@ -963,17 +1167,53 @@
         </div>
       </section>
 
-      <!-- ===================== PAYMENT ===================== -->
-      <section class="view" id="view-payment">
+      <!-- ===================== RESERVATION SUCCESS ===================== -->
+      <section class="view" id="view-success">
         <div class="status-bar">
           <span id="statusTime4">9:41</span>
           <span class="status-right">●●●● 5G ▮</span>
         </div>
-        <div class="payment-head">
-          <button class="payment-back" onclick="backToChat()">‹</button>
-          <div class="payment-head-title">Secure Booking</div>
+        <div class="success-wrap">
+          <div class="success-check">✓</div>
+          <div class="success-head">Unit <em>reserved</em></div>
+          <div class="success-sub">
+            Masaar · Sendian 3-bed Villa<br>
+            Held for you for 14 days
+          </div>
+          <div class="success-detail">
+            <div class="success-detail-row">
+              <span>Unit</span>
+              <span class="v">Sendian · Plot 14</span>
+            </div>
+            <div class="success-detail-row">
+              <span>Reservation ref</span>
+              <span class="v">ARA-SND-2026-14</span>
+            </div>
+            <div class="success-detail-row">
+              <span>Hold expires</span>
+              <span class="v">27 Oct 2026</span>
+            </div>
+            <div class="success-detail-row">
+              <span>Specialist</span>
+              <span class="v">Rania Al-Hashimi</span>
+            </div>
+          </div>
+          <div class="success-next">
+            <div class="success-next-head">What happens next</div>
+            <ul>
+              <li>Rania will call tomorrow at 11am to walk you through plot selection and finishings</li>
+              <li>Owner Advantage pricing confirmed on your account</li>
+              <li>EOI payment link will follow after your call</li>
+            </ul>
+          </div>
+          <button class="success-done-btn" onclick="backToHome()">Return to home</button>
         </div>
-        <iframe id="payFrame" src="about:blank"></iframe>
+
+        <!-- Processing overlay that shows briefly before success -->
+        <div class="processing-overlay" id="processingOverlay">
+          <div class="spinner"></div>
+          <div class="processing-overlay-txt">Reserving your unit…</div>
+        </div>
       </section>
 
     </div>
@@ -982,6 +1222,25 @@
 </div>
 
 <script>
+  // Auto-fit the phone to the viewport (so no browser zoom required)
+  function fitPhone() {
+    var stage = document.querySelector('.phone-stage');
+    if (!stage) return;
+    // Reset to measure
+    stage.style.transform = 'scale(1)';
+    var stageH = stage.offsetHeight;
+    var stageW = stage.offsetWidth;
+    var vH = window.innerHeight - 40; // breathing room
+    var vW = window.innerWidth - 40;
+    var scale = Math.min(vH / stageH, vW / stageW, 1);
+    if (scale < 1) {
+      stage.style.transform = 'scale(' + scale + ')';
+    }
+  }
+  window.addEventListener('resize', fitPhone);
+  window.addEventListener('load', fitPhone);
+  setTimeout(fitPhone, 100);
+
   // Clock
   function tickClock() {
     var d = new Date();
@@ -1024,15 +1283,15 @@
     startChatScript();
   }
   function backToHome() { showView('view-home'); }
-  function backToChat() { showView('view-chat'); }
+
 
   // ============ CHAT ENGINE ============
   var chatStream = null;
   var composer = null;
   var chatStarted = false;
-  var CHAR_DELAY = 42;      // ms per Andy character
-  var PUNCT_PAUSE = 180;    // extra pause on , . ? !
-  var AGENT_TYPING = 1400;  // typing dots duration (ms)
+  var CHAR_DELAY = 120;     // ms per Andy character (deliberate texter)
+  var PUNCT_PAUSE = 450;    // extra pause on , . ? !
+  var AGENT_TYPING = 1100;  // typing dots duration (ms)
 
   function scrollChat() {
     chatStream.scrollTop = chatStream.scrollHeight;
@@ -1089,8 +1348,8 @@
       i++;
       var d = CHAR_DELAY;
       if (ch === ',' || ch === '.' || ch === '?' || ch === '!') d += PUNCT_PAUSE;
-      // Slight jitter so it feels human
-      d += Math.random() * 25;
+      // Jitter so it feels human
+      d += Math.random() * 90;
       setTimeout(step, d);
     }
     setTimeout(step, 350);
@@ -1108,16 +1367,15 @@
       +       '<div class="book-sub">Arada · Al Suyoh, Sharjah</div>'
       +     '</div>'
       +   '</div>'
-      +   '<div class="book-row"><span>Headline price</span><span class="v">AED 2,500,000</span></div>'
-      +   '<div class="book-row"><span>Owner Advantage (-5%)</span><span class="v">− AED 125,000</span></div>'
-      +   '<div class="book-row"><span>Plan</span><span class="v">35 / 65</span></div>'
+      +   '<div class="book-row"><span>Price (after Owner Advantage)</span><span class="v">AED 2,375,000</span></div>'
+      +   '<div class="book-row"><span>Payment plan</span><span class="v">35 / 65</span></div>'
       +   '<div class="book-row"><span>Handover</span><span class="v">Q4 2028</span></div>'
       +   '<div class="book-row"><span>Golden Visa</span><span class="v">Eligible</span></div>'
       +   '<div class="book-amt">'
-      +     '<div class="lbl">EOI booking fee today</div>'
-      +     '<div class="v">AED 125,000</div>'
+      +     '<div class="lbl">Hold the unit for 14 days</div>'
+      +     '<div class="v">No payment today</div>'
       +   '</div>'
-      +   '<button class="book-cta" onclick="goPay()">Reserve · Pay AED 125,000</button>'
+      +   '<button class="book-cta" onclick="goPay()">Reserve this unit</button>'
       + '</div>';
     chatStream.appendChild(row);
     scrollChat();
@@ -1135,6 +1393,31 @@
     scrollChat();
   }
 
+  // ---- Capability banner cycling ----
+  function setCapability(label) {
+    var el = document.getElementById('capValue');
+    if (!el) return;
+    el.style.animation = 'none';
+    void el.offsetWidth; // reflow
+    el.textContent = label;
+    el.style.animation = '';
+  }
+
+  // ---- Tap-to-reply control ----
+  // After each agent message, show a "Tap to reply" button.
+  // The user clicks it to begin Andy's typing.
+  function showReplyButton(cb) {
+    var row = document.createElement('div');
+    row.className = 'reply-hint';
+    row.innerHTML = '<button type="button"><span class="reply-dot"></span>Tap to reply</button>';
+    row.querySelector('button').onclick = function() {
+      row.remove();
+      cb();
+    };
+    chatStream.appendChild(row);
+    scrollChat();
+  }
+
   // ---- SCRIPT ----
   function startChatScript() {
     if (chatStarted) return;
@@ -1145,109 +1428,122 @@
     runStep(0);
   }
 
+  // Step types:
+  //  agent:     agent message (typing dots then full message)
+  //  agent-chain: agent message with no reply hint after — chains straight to next agent message
+  //  user:      Andy types this text char-by-char
+  //  tap:       show "Tap to reply" button; waits for click, then advances
+  //  book:      show booking card (stops; waits for Reserve click)
+  //  plot:      show plot plan image
+  //  cap:       update the "Powered by" banner
   var STEPS = [
-    // 1. Agent opens with the full financial picture
-    { type: 'agent', wait: 500, html:
-      "Morning, Andy. I saw you were looking at the <strong>3-bed villas at Masaar</strong> earlier — thought I'd save you some time and pull the numbers together."
+    // ========== OPENER ==========
+    // Agent context engine fires — it pulled Andy's full picture
+    { type: 'cap', value: 'Trusted Enterprise Context' },
+    { type: 'agent', wait: 400, html:
+      "Morning, Andy. Saw you looking at <strong>Masaar villas</strong> earlier. Want me to run the numbers?"
     },
+    { type: 'tap' },
+
+    { type: 'user', wait: 300, text: "yes please" },
+
+    { type: 'cap', value: 'Agent Context Engine' },
     { type: 'agent', wait: 800, html:
-      "Based on your Arada portfolio and the open-banking view you've shared, here's where you stand this morning:" +
-      "<h4>Your current position</h4>" +
-      "<ul>" +
-      "<li>The Boulevard 12 · Apt 1204 — <strong>est. AED 790,000</strong>, up ~6% YoY</li>" +
-      "<li>Mortgage balance: AED 560,000 · Equity: <strong>AED 230,000</strong></li>" +
-      "<li>Last 12 months salary + bonus: AED 840,000</li>" +
-      "<li>Monthly surplus after mortgage: AED 18,500</li>" +
-      "</ul>" +
-      "<h4>Your indicative borrowing headroom</h4>" +
-      "At Emirates NBD's current rate of <strong>3.89%</strong> (3-year fixed, salary transfer), over 25 years:" +
-      "<ul>" +
-      "<li>Headroom: <strong>AED 1.8M – 2.1M</strong></li>" +
-      "<li>Payment on AED 1.8M: ~AED 9,400/month</li>" +
-      "</ul>" +
-      "A 3-bed Sendian at <strong>AED 2.375M</strong> (after Owner Advantage) sits <em>comfortably inside your envelope</em>. Booking today commits AED 125,000, with the first construction instalment not due until February 2027."
-    },
-    { type: 'agent', wait: 900, html:
-      "One other thing worth flagging — a Masaar purchase at this price point makes you eligible for the <strong>UAE 10-year Golden Visa</strong>." +
-      "<br><br>Want me to walk you through the rest — the market view, the plan, the exit options?"
+      "Your snapshot:<br>• Boulevard 12 — <strong>AED 790K</strong><br>• Equity — <strong>AED 230K</strong><br>• Monthly surplus — <strong>AED 18.5K</strong>"
     },
 
-    // 2. Andy's first real question
-    { type: 'user', wait: 1500, text: "yes please. is this a smart buy right now?" },
-
-    { type: 'agent', wait: 900, html:
-      "Honest answer — the Sendian 3-bed is one of the stronger plays in Arada's current book. Three reasons:" +
-      "<h4>1. Price trajectory</h4>" +
-      "Masaar phases have run <strong>+10% to +15%</strong> between launch and handover. Masaar Phase 2 launched at AED 1.82M for a 3-bed townhouse; the same unit trades on the secondary market today at <strong>AED 2.06–2.20M</strong>." +
-      "<h4>2. Rental yield</h4>" +
-      "Masaar 3-bed villas are leasing at AED 140K–180K/year. Against your AED 2.375M entry, that's a gross yield of <strong>6% – 7.5%</strong> — well ahead of comparable Dubai communities." +
-      "<h4>3. Your own numbers</h4>" +
-      "AED 125,000 today, first instalment February 2027. Your Boulevard 12 rental could cover <strong>~45%</strong> of the Masaar mortgage servicing if you ever let it out."
+    { type: 'agent-chain', wait: 1200, html:
+      "Headroom at ENBD's 3.89%: <strong>AED 1.8M–2.1M</strong>."
     },
 
-    // 3. Andy asks about handover
-    { type: 'user', wait: 1600, text: "when's handover? and can i see the plot plan?" },
-
-    { type: 'agent', wait: 900, html:
-      "Handover for <strong>Sendian · Phase 5</strong> is scheduled for <strong>Q4 2028</strong>. Here's the current availability map — three 3-bed units left in the Sendian cluster:"
-    },
-    { type: 'plot', wait: 600 },
-
-    // 4. Andy asks exit options
-    { type: 'user', wait: 1600, text: "ok and what are my exit options if i need to sell before handover?" },
-
-    { type: 'agent', wait: 900, html:
-      "Three routes, in the order investors in your bracket usually use:" +
-      "<h4>1. Assignment (resale during construction)</h4>" +
-      "Permitted after 30% paid — around month 18. Arada charges a 2% assignment fee. Earlier Masaar phases traded <strong>+8% to +10%</strong> at this stage." +
-      "<h4>2. Rent-to-own transfer</h4>" +
-      "Hand the contract to a buyer who assumes the remaining instalments. Lower fee (1%), slower matching." +
-      "<h4>3. Developer buy-back</h4>" +
-      "Within the first 12 months only, at paid amount minus 5%." +
-      "<br><br>Realistic worst case: sell at month 18 for ~AED 2.56M, net around AED 115K after fees. That's the floor, not the expectation."
+    { type: 'agent-chain', wait: 1000, html:
+      "A 3-bed Sendian at <strong>AED 2.375M</strong> is comfortably in reach. 🎯"
     },
 
-    // 5. Andy ready to book
-    { type: 'user', wait: 1800, text: "im interested. send me the booking link please" },
-
-    { type: 'agent', wait: 900, html:
-      "Here are the details — tap below to reserve. Your unit will be held for <strong>14 days</strong> from booking."
+    { type: 'agent-chain', wait: 1000, html:
+      "Bonus — qualifies you for the <strong>10-year Golden Visa</strong>."
     },
-    { type: 'book', wait: 500 }
+    { type: 'tap' },
+
+    // ========== INVESTMENT ==========
+    { type: 'user', wait: 300, text: "is it a smart buy?" },
+
+    { type: 'cap', value: 'Agentic CDP' },
+    { type: 'agent', wait: 800, html:
+      "Yes. Masaar phases run <strong>+10–15%</strong> launch to handover."
+    },
+
+    { type: 'agent-chain', wait: 1000, html:
+      "Rental yield <strong>6–7.5%</strong> gross — ahead of Dubai comparables."
+    },
+    { type: 'tap' },
+
+    // ========== HANDOVER ==========
+    { type: 'user', wait: 300, text: "when's handover?" },
+
+    { type: 'agent', wait: 800, html:
+      "<strong>Q4 2028</strong>. Three units left — here's the plan:"
+    },
+    { type: 'plot', wait: 400 },
+    { type: 'tap' },
+
+    // ========== EXIT OPTIONS ==========
+    { type: 'user', wait: 300, text: "if I need to sell before then?" },
+
+    { type: 'agent', wait: 800, html:
+      "Three routes — assignment, transfer, or developer buy-back."
+    },
+
+    { type: 'agent-chain', wait: 1200, html:
+      "Floor case: sell at month 18, net <strong>+AED 115K</strong>."
+    },
+    { type: 'tap' },
+
+    // ========== BOOKING ==========
+    { type: 'user', wait: 300, text: "I'm in" },
+
+    { type: 'cap', value: 'Agentforce Coworker' },
+    { type: 'agent', wait: 800, html:
+      "Beautiful. Tap below to reserve — <strong>no payment today</strong>, we hold the unit for 14 days."
+    },
+    { type: 'book', wait: 400 }
   ];
 
   function runStep(i) {
     if (i >= STEPS.length) return;
     var s = STEPS[i];
     setTimeout(function() {
-      if (s.type === 'agent') agentSays(s.html, function() { runStep(i + 1); });
-      else if (s.type === 'user') andyTypes(s.text, function() { runStep(i + 1); });
-      else if (s.type === 'book') { appendBookingCard(); /* stop here, wait for user click */ }
-      else if (s.type === 'plot') { appendPlotCard(); runStep(i + 1); }
-    }, s.wait || 500);
+      if (s.type === 'cap') {
+        setCapability(s.value);
+        runStep(i + 1);
+      } else if (s.type === 'agent') {
+        agentSays(s.html, function() { runStep(i + 1); });
+      } else if (s.type === 'agent-chain') {
+        // Chain of agent messages — show typing dots and keep going
+        agentSays(s.html, function() { runStep(i + 1); });
+      } else if (s.type === 'user') {
+        andyTypes(s.text, function() { runStep(i + 1); });
+      } else if (s.type === 'tap') {
+        showReplyButton(function() { runStep(i + 1); });
+      } else if (s.type === 'book') {
+        appendBookingCard();
+        /* stops here — waits for Reserve click */
+      } else if (s.type === 'plot') {
+        appendPlotCard();
+        runStep(i + 1);
+      }
+    }, s.wait || 300);
   }
 
-  // ---- Payment ----
+  // ---- Reservation (replaces old payment flow) ----
   function goPay() {
-    var params = 'ref=ARA-MASAAR-SENDIAN-01&amount=125000&label=Masaar+%C2%B7+Sendian+3-bed+Villa+%C2%B7+EOI+Booking';
-    document.getElementById('payFrame').src = 'payment.html?' + params;
-    showView('view-payment');
-
-    var tries = 0;
-    var poll = setInterval(function() {
-      tries++;
-      try {
-        var doc = document.getElementById('payFrame').contentDocument;
-        if (doc) {
-          var s = doc.getElementById('successState');
-          if (s && s.classList.contains('show')) {
-            clearInterval(poll);
-            setTimeout(notifyBookingComplete, 2500);
-          }
-        }
-      } catch (e) {}
-      if (tries > 180) clearInterval(poll);
-    }, 500);
+    showView('view-success');
+    document.getElementById('processingOverlay').classList.add('show');
+    setTimeout(function() {
+      document.getElementById('processingOverlay').classList.remove('show');
+      // Notify LWC opener so Scene 9 summary modal can fire
+      setTimeout(notifyBookingComplete, 1500);
+    }, 1800);
   }
 
   function notifyBookingComplete() {
