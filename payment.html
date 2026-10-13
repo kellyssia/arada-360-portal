@@ -534,7 +534,7 @@
       <div class="perk-icon">🎟</div>
       <div class="perk-copy">
         <strong>Thank-you perk included.</strong><br>
-        Settle this week and we'll email you an <strong>AED 500 Madar entertainment credit</strong>, redeemable at Zad Market and Aljada Boulevard restaurants this summer.
+        Settle this week and we'll email you an <strong>AED 500 Madar entertainment credit</strong>, redeemable at Zad Market and Aljada Boulevard restaurants this winter.
       </div>
     </div>
 
@@ -629,8 +629,8 @@
   }
 
   var amount = qs('amount', '4200');
-  var ref    = qs('ref', 'ARA-2026-Q2');
-  var label  = qs('label', 'The Boulevard 12 · Apt 1204 · Q2 2026 Service Charge');
+  var ref    = qs('ref', 'ARA-2026-Q4');
+  var label  = qs('label', 'The Boulevard 12 · Apt 1204 · Q4 2026 Service Charge');
 
   document.getElementById('amountDisplay').textContent = fmtAmount(amount);
   document.getElementById('refDisplay').textContent    = ref;
@@ -652,7 +652,6 @@
     document.getElementById('payLabel').textContent = 'Processing…';
 
     setTimeout(function() {
-      // Build receipt
       document.getElementById('rAmount').textContent = 'AED ' + fmtAmount(amount);
       document.getElementById('rLabel').textContent  = label;
       document.getElementById('rRef').textContent    = ref;
