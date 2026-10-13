@@ -1850,31 +1850,13 @@
   //  plot:      show plot plan image
   //  cap:       update the "Powered by" banner
   var STEPS = [
-    // ========== OPENER ==========
-    // Agent context engine fires — it pulled Andy's full picture
-    { type: 'cap', value: 'Trusted Enterprise Context' },
-    { type: 'agent', wait: 400, html:
-      "Morning, Andy. Saw you looking at <strong>Masaar villas</strong> earlier. Want me to run the numbers?"
-    },
-    { type: 'tap' },
-
-    { type: 'user', wait: 300, text: "yes please" },
-
+    // ========== OPENER — financial snapshot, all in one message ==========
     { type: 'cap', value: 'Agent Context Engine' },
-    { type: 'agent', wait: 800, html:
-      "Your snapshot:<br>• Boulevard 12 — <strong>AED 790K</strong><br>• Equity — <strong>AED 230K</strong><br>• Monthly surplus — <strong>AED 18.5K</strong>"
-    },
-
-    { type: 'agent-chain', wait: 1200, html:
-      "Headroom at ENBD's 3.89%: <strong>AED 1.8M–2.1M</strong>."
-    },
-
-    { type: 'agent-chain', wait: 1000, html:
-      "A 3-bed Sendian at <strong>AED 2.375M</strong> is comfortably in reach. 🎯"
-    },
-
-    { type: 'agent-chain', wait: 1000, html:
-      "Bonus — qualifies you for the <strong>10-year Golden Visa</strong>."
+    { type: 'agent', wait: 400, html:
+      "Morning, Andy. You've been looking at <strong>Masaar 3-bed villas</strong>. " +
+      "Based on your Boulevard 12 equity and ENBD's <strong>3.89%</strong> rate, " +
+      "you're comfortably in reach of the <strong>AED 2.375M</strong> Sendian unit — after your Owner Advantage. " +
+      "Bonus: qualifies you for the <strong>Golden Visa</strong>."
     },
     { type: 'tap' },
 
@@ -1883,33 +1865,17 @@
 
     { type: 'cap', value: 'Agentic CDP' },
     { type: 'agent', wait: 800, html:
-      "Yes. Masaar phases run <strong>+10–15%</strong> launch to handover."
-    },
-
-    { type: 'agent-chain', wait: 1000, html:
-      "Rental yield <strong>6–7.5%</strong> gross — ahead of Dubai comparables."
+      "Yes. Masaar runs <strong>+10–15%</strong> launch to handover. Rental yield <strong>6–7.5%</strong> gross."
     },
     { type: 'tap' },
 
-    // ========== HANDOVER ==========
+    // ========== HANDOVER + plot ==========
     { type: 'user', wait: 300, text: "when's handover?" },
 
     { type: 'agent', wait: 800, html:
-      "<strong>Q4 2028</strong>. Three units left — here's the plan:"
+      "<strong>Q4 2028</strong>. Three units left — here's the plot:"
     },
     { type: 'plot', wait: 400 },
-    { type: 'tap' },
-
-    // ========== EXIT OPTIONS ==========
-    { type: 'user', wait: 300, text: "if I need to sell before then?" },
-
-    { type: 'agent', wait: 800, html:
-      "Three routes — assignment, transfer, or developer buy-back."
-    },
-
-    { type: 'agent-chain', wait: 1200, html:
-      "Floor case: sell at month 18, net <strong>+AED 115K</strong>."
-    },
     { type: 'tap' },
 
     // ========== BOOKING ==========
@@ -1917,7 +1883,7 @@
 
     { type: 'cap', value: 'Agentforce Coworker' },
     { type: 'agent', wait: 800, html:
-      "Beautiful. Tap below to reserve — <strong>no payment today</strong>, we hold the unit for 14 days."
+      "Tap below to reserve — <strong>no payment today</strong>, we hold the unit for 14 days."
     },
     { type: 'book', wait: 400 }
   ];
